@@ -25,7 +25,7 @@ def create_post_page(payload: Dict[str, Union[str, timedelta]] = Depends(get_cur
 
 @router.post("/create", status_code=status.HTTP_200_OK)
 async def create_post(
-    file: UploadFile,
+    file: str = Form(...),
     title: str = Form(...),
     content: str = Form(...),
     hashtag: str = Form(...),
@@ -35,19 +35,10 @@ async def create_post(
     db = SessionLocal()
     logined_user = db.query(Users.id, Users.username, Users.gender, Users.phone_number).filter(Users.username == payload["sub"]).first()
 
-    current_directory = os.getcwd()
-
-    content = await file.read()
-    filename = f"{str(uuid.uuid4())}.jpg"  # uuid로 유니크한 파일명으로 변경
-    current_directory = os.path.join(current_directory, "images", filename)
-
-    with open(current_directory, "wb") as fp:
-        fp.write(content)  # 서버 로컬 스토리지에 이미지 저장 (쓰기)
-
     new_post = Posts(
         title=title,
         content=content,
-        image_path=current_directory,
+        image_path=file,
         hash_tag=hashtag,
         user_id=logined_user['id']
     )
