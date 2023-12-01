@@ -9,7 +9,18 @@ function App() {
   const { token, setToken } = useToken();
 
   if (!token) {
-    return <Login setToken={setToken} />;
+    return (
+      <>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Login setToken={setToken} />}></Route>
+
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+      </>
+    );
+    // return <Login setToken={setToken} />;
   }
   return (
     <>
@@ -17,7 +28,6 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>

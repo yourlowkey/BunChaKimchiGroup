@@ -116,7 +116,9 @@ export default function Login({ setToken }) {
             <button className="loginButton" onClick={handleSubmit}>
               Log In
             </button>
-            <button className="loginRgisterButton">Create a new Account</button>
+            <button className="loginRgisterButton">
+              <a href="/register">Create a new Account</a>
+            </button>
           </div>
         </div>
       </div>
